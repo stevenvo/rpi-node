@@ -9,8 +9,10 @@ RF24 radio(0,22);
 const uint8_t pipes[][11] = {"svo-master","svo-sensor"};
 
 typedef struct {
-  float X;
-  float Y;
+  float w;
+  float x;
+  float y;
+  float z;
 } Quat;
 
 typedef struct {
@@ -50,7 +52,7 @@ void loop(void) {
 
       radio.read(&mpu_data, len);
       Quat quat = mpu_data.Q;
-      sprintf(str, "Quat: x=%f, y=%f", quat.X, quat.Y);
+      sprintf(str, "Quat: w=%f, x=%f, y=%f, z=%f", quat.w, quat.x, quat.y, quat.z);
       cout << str << endl;
    }
 }
