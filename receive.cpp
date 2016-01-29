@@ -8,6 +8,14 @@ using namespace std;
 RF24 radio(0,22);
 const uint8_t pipes[][11] = {"svo-master","svo-sensor"};
 
+typedef struct {
+  float X;
+  float Y;
+} Quat;
+
+Quat quat;
+
+
 void setup(void) {
    // init radio for reading
    radio.begin();
@@ -26,15 +34,19 @@ void setup(void) {
  
 void loop(void) {
    // 32 byte character array is max payload
-   char receivePayload[32];
+   // char receivePayload[32];
+   char str[80];
  
    while (radio.available()) {
       // read from radio until payload size is reached
-      uint8_t len = radio.getDynamicPayloadSize();
-      radio.read(receivePayload, len);
- 
+      uint8_t len = radio.getDynamicPayloadSize();      
+      // radio.read(receivePayload, len);
       // display payload
-      cout << receivePayload << endl;
+      // cout << receivePayload << endl;
+
+      radio.read(&quat, len);      
+      sprintf(str, "Quat: x=%f, y=%f", quat.X, quat.Y);
+      cout << str << endl;
    }
 }
  
