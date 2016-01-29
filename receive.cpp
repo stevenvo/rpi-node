@@ -13,7 +13,11 @@ typedef struct {
   float Y;
 } Quat;
 
-Quat quat;
+typedef struct {
+  Quat Q;
+} Mpu_Data;
+
+Mpu_Data mpu_data;
 
 
 void setup(void) {
@@ -44,7 +48,8 @@ void loop(void) {
       // display payload
       // cout << receivePayload << endl;
 
-      radio.read(&quat, len);      
+      radio.read(&mpu_data, len);
+      Quat quat = mpu_data.Q;
       sprintf(str, "Quat: x=%f, y=%f", quat.X, quat.Y);
       cout << str << endl;
    }
